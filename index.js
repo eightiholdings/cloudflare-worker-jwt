@@ -113,8 +113,8 @@ class JWT {
             keyData = this._str2ab(atob(secret.replace(/-----BEGIN.*?-----/g, '').replace(/-----END.*?-----/g, '').replace(/\s/g, '')))
         } else
             keyData = this._utf8ToUint8Array(secret)
-        const key = await crypto.subtle.importKey(keyFormat, keyData, importAlgorithm, false, ['sign'])
-        const res = await crypto.subtle.sign(importAlgorithm, key, this._utf8ToUint8Array(tokenParts.slice(0, 2).join('.')))
+        const key = await cryptoImpl.subtle.importKey(keyFormat, keyData, importAlgorithm, false, ['sign'])
+        const res = await cryptoImpl.subtle.sign(importAlgorithm, key, this._utf8ToUint8Array(tokenParts.slice(0, 2).join('.')))
         return Base64URL.stringify(new Uint8Array(res)) === tokenParts[2]
     }
     decode(token) {
