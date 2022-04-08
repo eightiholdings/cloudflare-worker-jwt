@@ -15,7 +15,7 @@ NodeJS version must be v15+ as it uses webcrypto.
 ## Install
 
 ```
-npm i -D @tsndr/cloudflare-worker-jwt
+npm i -D @eightbitglobal/cloudflare-worker-jwt
 ```
 
 
