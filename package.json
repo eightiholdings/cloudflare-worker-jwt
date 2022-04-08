@@ -1,11 +1,11 @@
 {
-  "name": "@tsndr/cloudflare-worker-jwt",
-  "version": "1.1.6",
+  "name": "@eightbitglobal/cloudflare-worker-jwt",
+  "version": "2.0.1",
   "description": "A lightweight JWT implementation with ZERO dependencies for Cloudflare Worker",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tsndr/cloudflare-worker-jwt.git"
+    "url": "git+https://github.com/eightiholdings/cloudflare-worker-jwt.git"
   },
   "keywords": [
     "jwt",
@@ -14,10 +14,10 @@
     "worker",
     "cloudflare-worker"
   ],
-  "author": "Tobias Schneider",
+  "author": "Lester Chua",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tsndr/cloudflare-worker-jwt/issues"
+    "url": "https://github.com/eightiholdings/cloudflare-worker-jwt/issues"
   },
-  "homepage": "https://github.com/tsndr/cloudflare-worker-jwt#readme"
+  "homepage": "https://github.com/eightiholdings/cloudflare-worker-jwt#readme"
 }

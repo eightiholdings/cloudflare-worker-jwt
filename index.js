@@ -7,9 +7,16 @@ class Base64URL {
     }
 }
 
+let cryptoImpl;
+
 class JWT {
-    constructor() {
-        if (typeof crypto === 'undefined' || !crypto.subtle)
+    constructor(cryptoImplementation) {
+        if (!cryptoImplementation) {
+            cryptoImpl = crypto;
+        } else {
+            cryptoImpl = cryptoImplementation;
+        }
+        if (typeof cryptoImpl === 'undefined' || !cryptoImpl.subtle)
             throw new Error('Crypto not supported!')
         this.algorithms = {
             ES256: { name: 'ECDSA', namedCurve: 'P-256', hash: { name: 'SHA-256' } },
@@ -75,8 +82,8 @@ class JWT {
             keyData = this._str2ab(atob(secret.replace(/-----BEGIN.*?-----/g, '').replace(/-----END.*?-----/g, '').replace(/\s/g, '')))
         } else
             keyData = this._utf8ToUint8Array(secret)
-        const key = await crypto.subtle.importKey(keyFormat, keyData, importAlgorithm, false, ['sign'])
-        const signature = await crypto.subtle.sign(importAlgorithm, key, this._utf8ToUint8Array(partialToken))
+        const key = await cryptoImpl.subtle.importKey(keyFormat, keyData, importAlgorithm, false, ['sign'])
+        const signature = await cryptoImpl.subtle.sign(importAlgorithm, key, this._utf8ToUint8Array(partialToken))
         return `${partialToken}.${Base64URL.stringify(new Uint8Array(signature))}`
     }
     async verify(token, secret, options = { algorithm: 'HS256' }) {
@@ -115,4 +122,6 @@ class JWT {
     }
 }
 
-module.exports = new JWT
+module.exports = (cryptoImplInput) => {
+    return new JWT(cryptoImplInput);
+}

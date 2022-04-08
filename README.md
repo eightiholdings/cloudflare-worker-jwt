@@ -1,7 +1,9 @@
 # Cloudflare Worker JWT
 
 A lightweight JWT implementation with ZERO dependencies for Cloudflare Workers.
+Modified from the fork of tsndr/cloudflare-worker-jwt so that it is polymorphic and can work on both Cloudflare and NodeJS environments.
 
+NodeJS version must be v15+ as it uses webcrypto.
 
 ## Contents
 
@@ -19,11 +21,33 @@ npm i -D @tsndr/cloudflare-worker-jwt
 
 ## Examples
 
-### Basic Example
+### Basic Example for Cloudflare Workers
 
 ```javascript
 async () => {
-    const jwt = require('@tsndr/cloudflare-worker-jwt')
+    const jwt = require('@eightbitglobal/cloudflare-worker-jwt')();
+
+    // Creating a token
+    const token = await jwt.sign({ name: 'John Doe', email: 'john.doe@gmail.com' }, 'secret')
+
+    // Verifing token
+    const isValid = await jwt.verify(token, 'secret')
+
+    // Check for validity
+    if (!isValid)
+        return
+
+    // Decoding token
+    const payload = jwt.decode(token)
+}
+```
+
+### Basic Example for NodeJS
+
+```javascript
+async () => {
+    const { webcrypto } = require('crypto')
+    const jwt = require('@eightbitglobal/cloudflare-worker-jwt')(webcrypto);
 
     // Creating a token
     const token = await jwt.sign({ name: 'John Doe', email: 'john.doe@gmail.com' }, 'secret')
